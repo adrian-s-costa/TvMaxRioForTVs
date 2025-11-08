@@ -112,32 +112,6 @@ export default function Home() {
           ></div>
 
           {/* Texto acima do player */}
-          <div 
-            className={`hidden md:block absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-20 bg-white/30 backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${
-              !textOpen 
-                ? 'opacity-0 translate-y-[-20px] scale-95 pointer-events-none' 
-                : 'opacity-100 translate-y-0 scale-100'
-            }`}
-          >
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                setTextOpen(false);
-              }} 
-              className="absolute cursor-pointer -right-[10px] -top-[10px] rounded-full w-[40px] h-[40px] flex justify-center items-center bg-white/30 backdrop-blur-md hover:bg-white/50 transition-all duration-200 hover:scale-110 z-30"
-              aria-label="Fechar"
-            >
-              <span className="text-[25px] font-semibold text-white leading-none">×</span>
-            </button>
-            <h1 className="text-[58px] text-[#bc0000] italic">TV AO VIVO</h1>
-            <h2 className="text-[18px] text-[#ffffff]">
-              Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
-              conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você
-              encontra notícias locais, cultura, turismo, esportes, eventos e muito mais,
-              tudo com uma pegada dinâmica e atualizada.
-            </h2>
-          </div>
-
           <div className={`md:mt-[100%] mt-[${viewportWidth + 'px'}] block md:hidden w-full justify-center h-auto p-5 z-10 backdrop-blur-md `}>
             <h1 className="text-[28px] text-[#bc0000] italic w-full flex justify-center">TV AO VIVO</h1>
             <h2 className="text-[14px] text-center text-[#ffffff] w-full flex justify-center">
