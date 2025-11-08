@@ -1,0 +1,73 @@
+{
+  "background_color": "#FFFFFF",
+  "description": "Teste",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "TV Max Rio",
+  "orientation": "natural",
+  "scope": "/home",
+  "short_name": "TV Max Rio",
+  "start_url": "/home",
+  "theme_color": "#ff0000",
+  "icons": [
+    {
+      "src": "/icon2.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "/icon2.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/icon2.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/icon2.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "/icon2.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/icon2.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/icon2.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/icon2.png",
+      "type": "image/png"
+    }
+  ],
+  "lang": "pt",
+  "handle_links": "preferred",
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "application/pdf": [".pdf"]
+      },
+      "launch_type": "single-client"
+    }
+  ],
+  "url_handlers": [
+    {
+      "origin": "https://pdfhost.io/"
+    }
+  ],
+  "scope_extensions": [
+    {"origin": "https://pdfhost.io/"},
+    {"origin": "https://pdfhost.io"}
+  ]
+}

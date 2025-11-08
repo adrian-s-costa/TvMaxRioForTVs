@@ -1,0 +1,13 @@
+[
+  {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.somosaagencia.grupofera",
+        "sha256_cert_fingerprints": [
+          "CA:9A:28:5B:E4:8E:75:48:03:F5:C7:02:C1:91:0A:3E:DF:48:97:BA:BD:1B:46:18:34:8E:10:86:E2:29:F1:E2",
+          "1C:2F:31:7F:54:8E:27:13:BA:B1:48:0A:4B:6F:4C:82:46:75:21:2E:C8:FC:A5:C4:8E:FD:38:83:67:A8:21:9E"
+        ]
+      }
+    }
+  ]
