@@ -1,16 +1,29 @@
 "use client"
 
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, ReactElement, cloneElement } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CarouselProps {
   children: React.ReactNode;
   title: string;
   className?: string;
+  railIndex?: number;
+  focusedItemIndex?: number;
+  isFocused?: boolean;
+  onItemFocus?: (index: number) => void;
 }
 
-export default function Carousel({ children, title, className = '' }: CarouselProps) {
+export default function Carousel({ 
+  children, 
+  title, 
+  className = '',
+  railIndex = 0,
+  focusedItemIndex = 0,
+  isFocused = false,
+  onItemFocus
+}: CarouselProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
@@ -36,6 +49,34 @@ export default function Carousel({ children, title, className = '' }: CarouselPr
       }
     };
   }, [children]);
+
+  // Scroll to focused item when it changes
+  useEffect(() => {
+    if (isFocused && itemRefs.current[focusedItemIndex] && scrollContainerRef.current) {
+      const focusedElement = itemRefs.current[focusedItemIndex];
+      const container = scrollContainerRef.current;
+      
+      if (focusedElement) {
+        const containerRect = container.getBoundingClientRect();
+        const elementRect = focusedElement.getBoundingClientRect();
+        
+        // Check if element is outside viewport
+        if (elementRect.left < containerRect.left) {
+          // Scroll left to show focused item
+          container.scrollTo({
+            left: container.scrollLeft + (elementRect.left - containerRect.left) - 20,
+            behavior: 'smooth'
+          });
+        } else if (elementRect.right > containerRect.right) {
+          // Scroll right to show focused item
+          container.scrollTo({
+            left: container.scrollLeft + (elementRect.right - containerRect.right) + 20,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }
+  }, [focusedItemIndex, isFocused]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return;
@@ -81,10 +122,33 @@ export default function Carousel({ children, title, className = '' }: CarouselPr
       </div>
       <div
         ref={scrollContainerRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
+        className={`flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth ${
+          isFocused ? 'ring-2 ring-[#bc0000] ring-offset-2 ring-offset-[#141414] rounded-lg' : ''
+        }`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {children}
+        {Array.isArray(children) 
+          ? children.map((child, index) => {
+              if (React.isValidElement(child)) {
+                return (
+                  <div
+                    key={index}
+                    ref={(el) => {
+                      itemRefs.current[index] = el;
+                    }}
+                    className={isFocused && index === focusedItemIndex ? 'ring-2 ring-[#bc0000] rounded-xl' : ''}
+                  >
+                    {cloneElement(child as ReactElement, {
+                      isFocused: isFocused && index === focusedItemIndex,
+                      onFocus: () => onItemFocus?.(index)
+                    })}
+                  </div>
+                );
+              }
+              return child;
+            })
+          : children
+        }
       </div>
     </div>
   );
