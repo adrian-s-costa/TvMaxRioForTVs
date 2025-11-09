@@ -138,10 +138,10 @@ export default function Carousel({
                     }}
                     className={isFocused && index === focusedItemIndex ? 'ring-2 ring-[#bc0000] rounded-xl' : ''}
                   >
-                    {cloneElement(child as ReactElement, {
+                    {cloneElement(child as ReactElement<any>, {
                       isFocused: isFocused && index === focusedItemIndex,
                       onFocus: () => onItemFocus?.(index)
-                    })}
+                    } as any)}
                   </div>
                 );
               }
