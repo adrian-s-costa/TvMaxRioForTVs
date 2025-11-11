@@ -9,9 +9,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useCatalogNavigation, { CatalogSectionType } from '../hooks/useCatalogNavigation';
 
+interface TvShow {
+  id: string;
+  name: string;
+  showThumbSrc: string;
+  showFrequency: string;
+}
+
 export default function ProgramsPage() {
   const router = useRouter();
-  const [tvShows, setTvShows] = useState([]);
+  const [tvShows, setTvShows] = useState<TvShow[]>([]);
   const [loading, setLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -169,7 +176,7 @@ export default function ProgramsPage() {
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4 lg:gap-6 w-full scroll-mt-20"
           >
             {tvShows && tvShows.length > 0 ? (
-              tvShows.map((tvShow: any, index: number) => (
+              tvShows.map((tvShow, index: number) => (
                 <VideoCardCatalog
                   key={tvShow.id}
                   image={tvShow.showThumbSrc}

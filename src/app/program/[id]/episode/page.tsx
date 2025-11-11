@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useParams, useRouter } from 'next/navigation';
 import CustomVideoPlayer from '../../../components/customVideoPlayer';
-import { urlApi } from '../../../../urlApi';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
