@@ -137,19 +137,11 @@ const useVerticalNavigation = ({
       if (menuIsOpen && focusedSection === 0) {
         // Mapeia o item do menu para a seção correspondente
         // 0 = Ao Vivo (header/home - já está aqui, mas pode navegar para a página)
-        // 1 = Programas (programs - seção 2)
-        // 2 = Social (header/social - navega para a página)
-        if (focusedMenuItem === 1) {
-          // Navega para a seção de programas
-          if (onCloseMenu) onCloseMenu()
-          setFocusedSection(2) // programs é índice 2
-          setFocusedItem(0)
-        } else {
-          // Para Ao Vivo (0) e Social (2), navega para a página correspondente
-          onEnter(currentSection, focusedMenuItem)
-          // Fecha o menu após navegar
-          if (onCloseMenu) onCloseMenu()
-        }
+        // 1 = Programas (redireciona para /programs)
+        // Todos os itens do menu redirecionam para suas páginas
+        onEnter(currentSection, focusedMenuItem)
+        // Fecha o menu após navegar
+        if (onCloseMenu) onCloseMenu()
       } else if (currentSection === 'programs') {
         onEnter(currentSection, focusedItem)
       } else if (currentSection === 'header') {

@@ -13,8 +13,7 @@ export default function TopNav({ isFocused = false, focusedMenuItem = 0 }: TopNa
 
   const menuItems = [
     { label: 'Ao Vivo', href: '/home' },
-    { label: 'Programas', href: '/programs' },
-    { label: 'Social', href: '/social' }
+    { label: 'Programas', href: '/programs' }
   ];
 
   return (

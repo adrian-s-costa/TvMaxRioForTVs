@@ -122,9 +122,7 @@ export default function Carousel({
       </div>
       <div
         ref={scrollContainerRef}
-        className={`flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth ${
-          isFocused ? 'ring-2 ring-[#bc0000] ring-offset-2 ring-offset-[#141414] rounded-lg' : ''
-        }`}
+        className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth py-3"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {Array.isArray(children) 
@@ -136,7 +134,7 @@ export default function Carousel({
                     ref={(el) => {
                       itemRefs.current[index] = el;
                     }}
-                    className={isFocused && index === focusedItemIndex ? 'ring-2 ring-[#bc0000] rounded-xl' : ''}
+                    className={`${isFocused && index === focusedItemIndex ? 'ring-2 ring-[#bc0000] rounded-xl' : ''} p-2`}
                   >
                     {cloneElement(child as ReactElement<any>, {
                       isFocused: isFocused && index === focusedItemIndex,

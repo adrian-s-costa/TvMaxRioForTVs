@@ -1,7 +1,7 @@
 {
-  "id": "tvMaxRioNew",
-  "version": "1",
-  "vendor": "My Company",
+  "id": "tvmaxrionew",
+  "version": "1.0.0",
+  "vendor": "A Agência de Marketing",
   "type": "web",
   "main": "index.html",
   "title": "Tv Max Rio",

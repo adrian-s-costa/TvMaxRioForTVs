@@ -1,0 +1,10 @@
+{
+  "id": "testerTv",
+  "version": "1",
+  "vendor": "My Company",
+  "type": "web",
+  "main": "index.html",
+  "title": "Tv Max Rio Teste",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png"
+}

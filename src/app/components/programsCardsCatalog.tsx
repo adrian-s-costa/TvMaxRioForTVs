@@ -1,9 +1,38 @@
 import Link from "next/link";
 
-export default function VideoCardCatalog({ image, title, subtitle, showId }: {image: string, title: string, subtitle: string, showId: string}) {
+interface VideoCardCatalogProps {
+  image: string;
+  title: string;
+  subtitle: string;
+  showId: string;
+  isFocused?: boolean;
+  onFocus?: () => void;
+  'data-program-index'?: number;
+}
+
+export default function VideoCardCatalog({ image, title, subtitle, showId, isFocused = false, onFocus, 'data-program-index': dataProgramIndex }: VideoCardCatalogProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      // O Link já trata a navegação
+    }
+  };
+
   return (
     <Link href={`/program/${showId}`} className="block w-full">
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-white/20 bg-zinc-800">
+      <div
+        onFocus={onFocus}
+        onKeyDown={handleKeyDown}
+        tabIndex={isFocused ? 0 : -1}
+        role="button"
+        aria-label={`Ver programa ${title}`}
+        data-program-index={dataProgramIndex}
+        className={`relative w-full aspect-video rounded-xl overflow-hidden border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#bc0000] ${
+          isFocused
+            ? 'border-[#bc0000] scale-105 shadow-lg shadow-[#bc0000]/50'
+            : 'border-white/20'
+        } bg-zinc-800`}
+      >
         {/* Imagem */}
         <img
           src={image}

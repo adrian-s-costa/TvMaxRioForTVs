@@ -41,8 +41,7 @@ export default function Home() {
   // Menu items
   const menuItems = [
     { label: 'Ao Vivo', href: '/home' },
-    { label: 'Programas', href: '/programs' },
-    { label: 'Social', href: '/social' }
+    { label: 'Programas', href: '/programs' }
   ];
   
   // Navegação vertical com controle remoto
@@ -244,9 +243,7 @@ export default function Home() {
 
         <div 
           ref={programsRef}
-          className={`mt-14 pb-24 md:pb-14 mx-10 transition-all duration-200 scroll-mt-20 ${
-            focusedSection === 2 ? 'ring-2 ring-[#bc0000] ring-offset-2 ring-offset-[#141414] rounded-lg p-2' : ''
-          }`}
+          className="mt-14 pb-24 md:pb-14 mx-10 transition-all duration-200 scroll-mt-20 py-3"
         >
           <Carousel 
             title="Programas"

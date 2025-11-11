@@ -1,15 +1,104 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import TopNav from '../components/topNav';
 import VideoCardCatalog from '../components/programsCardsCatalog';
 import { urlApi } from '../../../urlApi';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useCatalogNavigation, { CatalogSectionType } from '../hooks/useCatalogNavigation';
 
 export default function ProgramsPage() {
+  const router = useRouter();
   const [tvShows, setTvShows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Refs para scroll automático
+  const headerRef = useRef<HTMLDivElement>(null);
+  const programsRef = useRef<HTMLDivElement>(null);
+  
+  // Menu items
+  const menuItems = [
+    { label: 'Ao Vivo', href: '/home' },
+    { label: 'Programas', href: '/programs' }
+  ];
+  
+  // Navegação com controle remoto
+  const sections: CatalogSectionType[] = ['header', 'programs'];
+  
+  const { 
+    focusedSection, 
+    focusedProgram,
+    focusedMenuItem,
+    setFocusedProgram,
+    currentSection 
+  } = useCatalogNavigation({
+    isActive: !loading,
+    sections,
+    programsCount: tvShows.length,
+    menuItemsCount: menuItems.length,
+    isMenuOpen,
+    onEnter: useCallback((section: CatalogSectionType, itemIndex?: number) => {
+      if (section === 'header' && itemIndex !== undefined) {
+        const selectedMenuItem = menuItems[itemIndex];
+        if (selectedMenuItem) {
+          router.push(selectedMenuItem.href);
+        }
+      } else if (section === 'programs' && itemIndex !== undefined && tvShows[itemIndex]) {
+        // Navega para o programa selecionado
+        const selectedShow = tvShows[itemIndex];
+        router.push(`/program/${selectedShow.id}`);
+      }
+    }, [router, tvShows, menuItems]),
+    onOpenMenu: (fromSection: number) => {
+      setIsMenuOpen(true);
+    },
+    onCloseMenu: () => {
+      setIsMenuOpen(false);
+    }
+  });
+  
+  // Scroll automático para seção focada
+  useEffect(() => {
+    const scrollToSection = () => {
+      let targetElement: HTMLDivElement | null = null;
+      
+      switch (focusedSection) {
+        case 0: // header
+          targetElement = headerRef.current;
+          break;
+        case 1: // programs
+          targetElement = programsRef.current;
+          break;
+      }
+      
+      if (targetElement) {
+        targetElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }
+    };
+    
+    const timeoutId = setTimeout(scrollToSection, 100);
+    return () => clearTimeout(timeoutId);
+  }, [focusedSection]);
+  
+  // Scroll automático para programa focado
+  useEffect(() => {
+    if (currentSection === 'programs' && programsRef.current) {
+      const programCard = programsRef.current.querySelector(`[data-program-index="${focusedProgram}"]`) as HTMLElement;
+      if (programCard) {
+        programCard.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center',
+          inline: 'center'
+        });
+      }
+    }
+  }, [focusedProgram, currentSection]);
 
   const notify = (text: string) => toast.error(text, {
     position: "bottom-right",
@@ -52,7 +141,12 @@ export default function ProgramsPage() {
 
   return (
     <div className="min-h-screen bg-[#141414] text-white font-[Poppins] pb-24 md:pb-14 overflow-x-hidden">
-      <TopNav />
+      <div ref={headerRef}>
+        <TopNav 
+          isFocused={focusedSection === 0 || isMenuOpen} 
+          focusedMenuItem={focusedMenuItem}
+        />
+      </div>
       
       <div className="pt-20 md:pt-32 px-4 md:px-6 lg:px-8 xl:px-12 max-w-full">
         {/* Header */}
@@ -70,15 +164,21 @@ export default function ProgramsPage() {
           </div>
         ) : (
           /* Grid de Programas */
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4 lg:gap-6 w-full">
+          <div 
+            ref={programsRef}
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4 lg:gap-6 w-full scroll-mt-20"
+          >
             {tvShows && tvShows.length > 0 ? (
-              tvShows.map((tvShow: any) => (
+              tvShows.map((tvShow: any, index: number) => (
                 <VideoCardCatalog
                   key={tvShow.id}
                   image={tvShow.showThumbSrc}
                   title={tvShow.name}
                   subtitle={tvShow.showFrequency}
                   showId={tvShow.id}
+                  isFocused={focusedSection === 1 && index === focusedProgram}
+                  onFocus={() => setFocusedProgram(index)}
+                  data-program-index={index}
                 />
               ))
             ) : (
